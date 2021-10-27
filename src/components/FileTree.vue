@@ -51,10 +51,10 @@ export default {
     },
     getStyle(node) {
       let color = "yellow";
-      if (!node.contents) {
+      if (!node.contents || node.contents.length === 0) {
         switch (node.type) {
           case "link":
-            color = "white";
+            color = "lawngreen";
             break;
           case "file":
             color = "red";
