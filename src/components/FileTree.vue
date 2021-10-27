@@ -6,6 +6,7 @@
          class="node">
       <span
           class="type"
+          v-if="node.contents"
           @click="nodeClicked(node)">
         {{ isExpanded(node) ? '&#9660;' : '&#9658;' }}
       </span>
