@@ -18,7 +18,7 @@
       <span :style="getStyle(node)">{{ node.name }}</span>
 
       <FileTree
-          v-if="isExpanded(node) && node.contents"
+          v-if="isExpanded(node)"
           :nodes="node.contents"
           :depth="depth + 1"/>
     </div>
