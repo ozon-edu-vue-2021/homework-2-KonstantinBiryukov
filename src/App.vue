@@ -1,27 +1,38 @@
 <template>
   <div id="app">
-    <FileTree/>
+    <h1>File Tree</h1>
+    <FileTree :nodes="root"/>
   </div>
 </template>
 
 <script>
-import FileTree from './components/FileTree.vue'
+import FileTree from "./components/FileTree.vue";
+import nodeModules from "../public/static/node_modules.json";
 
 export default {
-  name: 'App',
+  name: "app",
+  data() {
+    return {
+      root: nodeModules,
+    };
+  },
   components: {
-    FileTree
-  }
-}
+    FileTree,
+  },
+};
 </script>
 
 <style>
+body {
+  background-color: #444;
+  color: white;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
 }
 </style>

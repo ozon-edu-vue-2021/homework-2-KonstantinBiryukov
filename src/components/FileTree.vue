@@ -1,56 +1,74 @@
 <template>
-  <ul v-if="tree" class="folders">
-    <li>Folders</li>
-    <DirectoryElement :directory="tree"></DirectoryElement>
-  </ul>
-<!--  <div>-->
-<!--    <DirectoryElement v-if="isDirectory" :directory="tree">-->
-<!--      {{ tree.name }}-->
-<!--    </DirectoryElement>-->
-<!--  </div>-->
+  <div>
+    <div v-for="node in nodes"
+         :key="node.name"
+         :style="{'margin-left': `${depth * 15}px`}"
+         class="node">
+      <span
+          class="type"
+          @click="nodeClicked(node)">
+        {{ isExpanded(node) ? '&#9660;' : '&#9658;' }}
+      </span>
+      <span class="type">&#9671;</span>
+      <span :style="getStyle(node)">{{ node.name }}</span>
+      <FileTree
+          v-if="isExpanded(node) && node.contents"
+          :nodes="node.contents"
+          :depth="depth + 1"
+          @onClick="() => $emit('onClick', node)"/>
+    </div>
+  </div>
 </template>
 
 <script>
-const filePath = "../../static/node_modules.json"
-import DirectoryElement from "./tree_elements/DirectoryElement"
-
 export default {
   name: "FileTree",
-  components: {
-    // 'DirectoryElement': () => import('./tree_elements/DirectoryElement')
-    DirectoryElement
+  props: {
+    nodes: Array,
+    depth: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
-      tree: ""
-    }
+      expanded: [],
+    };
   },
-  async created() {
-    try {
-      const response = await fetch(filePath);
-      this.tree = await response.json();
-    } catch (e) {
-      alert(`Error: ${e}`)
-    }
+  methods: {
+    isExpanded(node) {
+      return this.expanded.indexOf(node) !== -1;
+    },
+    nodeClicked(node) {
+      (!this.isExpanded(node)) ?
+          this.expanded.push(node) :
+          this.expanded.splice(this.expanded.indexOf(node));
+    },
+    getStyle(node) {
+      let color = "yellow";
+      if (!node.contents) {
+        switch (node.type) {
+          case "link":
+            color = "white";
+            break;
+          case "file":
+            color = "red";
+            break;
+        }
+      }
+      return {color};
+    },
   },
-  computed: {
-    isDirectory() {
-      return this.tree.type === "directory";
-    }
-  },
-  methods: {}
-}
+};
 </script>
 
 <style scoped>
-ul.folders {
-  padding: 1rem;
-  margin: 0;
-  box-sizing: border-box;
-  width: 100%;
-  list-style: none
+.node {
+  text-align: left;
+  font-size: 18px;
 }
-ul.folders > li:first-child {
-  padding: 1rem 1rem 1rem 0
+
+.type {
+  margin-right: 10px;
 }
 </style>
