@@ -7,7 +7,7 @@
 
       <span
           class="type expandable"
-          v-if="node.contents"
+          v-if="node.contents && node.contents.length"
           @click="clickNode(node)">
         {{ isExpanded(node) ? '&#9660;' : '&#9658;' }}
       </span>
