@@ -6,12 +6,12 @@
          class="node">
 
       <span
-          class="type"
+          class="type expandable"
           v-if="node.contents"
           @click="clickNode(node)">
         {{ isExpanded(node) ? '&#9660;' : '&#9658;' }}
       </span>
-      <span v-else class="type">
+      <span v-else class="type not-expandable">
         &#9671;
       </span>
 
@@ -75,5 +75,13 @@ export default {
 
 .type {
   margin-right: 10px;
+}
+
+.expandable {
+  cursor: grab;
+}
+
+.not-expandable {
+  cursor: not-allowed;
 }
 </style>
