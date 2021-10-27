@@ -4,19 +4,23 @@
          :key="node.name"
          :style="{'margin-left': `${depth * 15}px`}"
          class="node">
+
       <span
           class="type"
           v-if="node.contents"
-          @click="nodeClicked(node)">
+          @click="clickNode(node)">
         {{ isExpanded(node) ? '&#9660;' : '&#9658;' }}
       </span>
-      <span class="type">&#9671;</span>
+      <span v-else class="type">
+        &#9671;
+      </span>
+
       <span :style="getStyle(node)">{{ node.name }}</span>
+
       <FileTree
           v-if="isExpanded(node) && node.contents"
           :nodes="node.contents"
-          :depth="depth + 1"
-          @onClick="() => $emit('onClick', node)"/>
+          :depth="depth + 1"/>
     </div>
   </div>
 </template>
@@ -40,7 +44,7 @@ export default {
     isExpanded(node) {
       return this.expanded.indexOf(node) !== -1;
     },
-    nodeClicked(node) {
+    clickNode(node) {
       (!this.isExpanded(node)) ?
           this.expanded.push(node) :
           this.expanded.splice(this.expanded.indexOf(node));

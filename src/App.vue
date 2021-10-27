@@ -11,14 +11,14 @@ import nodeModules from "../public/static/node_modules.json";
 
 export default {
   name: "app",
+  components: {
+    FileTree,
+  },
   data() {
     return {
       root: nodeModules,
     };
-  },
-  components: {
-    FileTree,
-  },
+  }
 };
 </script>
 
